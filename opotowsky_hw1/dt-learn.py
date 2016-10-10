@@ -5,7 +5,7 @@ import sys
 from math import log
 
 class TreeNode:
-    def __init__(self, col='', value=None, results=None, true_n=None, false_=None):
+    def __init__(self, col='', value=None, results=None, true_n=None, false_n=None):
         self.col = col # name (string) of column being tested
         self.value = value # true value
         self.results = results # list of results for a branch for leaf nodes only
@@ -85,47 +85,63 @@ def info_gain(data, split):
 
 def find_best_split(data, attributes, splits):
     """
-    Finds the split with the most info gain and returns the sets of the split
+    Finds the split with the most info gain and returns the attr to split on
     """
     max_gain= -1000.0
     best_split_attr = None
     
+    # Calculates best split
     for split in splits:
         gain = info_gain(data, split)
         if gain > max_gain:
             max_gain = gain
             best_split_attr = split
-        
+    
     return best_split_attr
 
-#def determine_candidate_splits():
-#    """
-#    Returns list of candidate attributes
-#    """
-#    if 
-#    return splits
+def determine_candidate_splits():
+    """
+    Returns list of candidate attributes and where to split on if numeric
+    """
+    
+    return splits
 
 def decision_tree(data, meta, attributes, train_vals, m):
     """
     Builds decision tree by recursively making subtrees.
-   """
+    """
     # Returns list of potential attributes for splitting
     splits = determine_candidate_splits(data, attributes)
 
+    # Get majority value for default
+    tvals = {}
+    for row in data:
+        if (tvals.has_key(row['class'])):
+            tvals[row['class']] += 1.0
+        else:
+            tvals[row['class']]  = 1.0
+    default = max(tvals, key=tvals.get)
+
     # Stopping Criteria 1: Empty data set or no more attributes to split
+    if not data or (len(attributes) - 1) <= 0:
+        return default
     # Stopping Criteria 2: m or less data points for a split 
-    # Stopping Criteria 3: All data has same classification
-    if not data or (len(attributes) - 1) <= 0 or splits.count() <= m or train_vals.count(train_vals[0]) == len(train_vals):
+    elif splits.count() <= m:
         # subtree = TreeNode()
         # determine class/label properties
         return TreeNode(LEAF)
-        # return train_vals[0]
+    # Stopping Criteria 3: All data has same classification
+    elif train_vals.count(train_vals[0]) == len(train_vals):
+        return train_vals[0]
     else:
-        subtree = TreeNode(INTERNAL)
-        split = find_best_split(data, splits)
-        split_set = split_set(....)
+        split_set = find_best_split(data, splits)
+        subtree = TreeNode(NEW NODE)
         for branch in split_set:
+            # Performs split into sets for categorical or numerical data
+            ...
             subset = instances where D gives Outcome and each Outcome of Node calls 
+            subtree = TreeNode(...)
+
 
 # Create a new decision tree/node with the best attribute and an empty
 # dictionary object--we'll fill that up next.
@@ -134,10 +150,10 @@ tree = {best:{}}
 
 # Create a new decision tree/sub-node for each of the values in the best attribute field
 for val in get_values(data, best):
-# Create a subtree for the current value under the "best" field
-subtree = create_decision_tree(get_examples(data, best, val), [attr for attr in attributes if attr != best], target_attr, fitness_func)
-# Add the new subtree to the empty dictionary object in our new tree/node we just created.
-tree[best][val] = subtree
+    # Create a subtree for the current value under the "best" field
+    subtree = create_decision_tree(get_examples(data, best, val), [attr for attr in attributes if attr != best], target_attr, fitness_func)
+    # Add the new subtree to the empty dictionary object in our new tree/node we just created.
+    tree[best][val] = subtree
 
     return tree
 
