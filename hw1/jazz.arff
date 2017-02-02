@@ -1,0 +1,62 @@
+% 1. Title: Jazz Genres
+%
+% 2. Sources:
+%      (a) Creator: R.A. Fisher
+%      (b) Donor: Michael Marshall (MARSHALL%PLU@io.arc.nasa.gov)
+%      (c) Date: July, 198
+% 
+% 3. Notes: 
+%      (a) notableInstrument is listed in order of importance, not prevalence
+%      (b) bandSize is sometimes guessed
+%
+@RELATION jazzGenre
+
+@ATTRIBUTE improvisation {yes, no}
+@ATTRIBUTE bandSize integer
+@ATTRIBUTE vocals {yes, no}
+@ATTRIBUTE notableInstrument {clarinet, hand-drums, guitar, harmonica, tuba, stringed-ins, organ, piano, xtet, sax, trumpet, brass-section}
+@ATTRIBUTE class {dixieland, hot-jazz, cool-jazz, bop, bossa-nova, vocalese, gypsy-jazz, band}
+
+@DATA
+% big band w/ vocals
+yes,5,yes,organ,vocalese
+no,17,yes,piano,band
+no,16,yes,piano,band
+no,16,no,brass-section,band
+% vocals
+no,16,yes,brass-section,vocalese
+no,15,yes,piano,vocalese
+no,12,yes,stringed-ins,vocalese
+no,15,yes,stringed-ins,vocalese
+no,4,yes,trumpet,cool-jazz
+no,7,yes,xtet,vocalese
+% bossa
+no,1,yes,guitar,bossa-nova
+no,2,yes,guitar,bossa-nova
+no,3,yes,sax,bossa-nova
+no,5,yes,sax,bossa-nova
+no,6,yes,sax,bossa-nova
+% xtets
+yes,5,yes,xtet,bop
+yes,7,no,xtet,bop
+yes,2,no,sax,bop
+yes,5,no,xtet,bop
+yes,4,no,xtet,bop
+yes,5,no,xtet,cool-jazz
+yes,7,no,xtet,bop
+yes,6,no,xtet,bop
+yes,27,no,trumpet,band
+% hot jazz
+no,8,yes,xtet,hot-jazz
+no,5,yes,trumpet,hot-jazz
+no,7,yes,xtet,hot-jazz
+% dixieland
+no,8,yes,clarinet,dixieland
+no,6,yes,clarinet,dixieland
+no,6,yes,trumpet,dixieland
+% cool
+yes,2,no,trumpet,cool-jazz
+yes,4,no,piano,cool-jazz
+% gypsy
+no,5,no,guitar,gypsy-jazz
+no,3,no,guitar,gypsy-jazz
