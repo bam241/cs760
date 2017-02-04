@@ -1,9 +1,9 @@
 % 1. Title: Jazz Genres
 %
 % 2. Sources:
-%      (a) Creator: R.A. Fisher
-%      (b) Donor: Michael Marshall (MARSHALL%PLU@io.arc.nasa.gov)
-%      (c) Date: July, 198
+%      (a) Creator: Arrielle opotowsky
+%      (b) Data: From my record collection
+%      (c) Date: 1 Feb 2017
 % 
 % 3. Notes: 
 %      (a) notableInstrument is listed in order of importance, not prevalence
@@ -11,22 +11,26 @@
 %
 @RELATION jazzGenre
 
+@ATTRIBUTE year integer
+@ATTRIBUTE recordCo string
 @ATTRIBUTE improvisation {yes, no}
 @ATTRIBUTE bandSize integer
 @ATTRIBUTE vocals {yes, no}
-@ATTRIBUTE notableInstrument {clarinet, hand-drums, guitar, harmonica, tuba, stringed-ins, organ, piano, xtet, sax, trumpet, brass-section}
+@ATTRIBUTE notableInstrument1 {clarinet, hand-drums, guitar, harmonica, tuba, stringed-ins, organ, piano, trombone, saxophone, trumpet, drums, bass}
+@ATTRIBUTE notableInstrument2 {clarinet, hand-drums, guitar, harmonica, tuba, stringed-ins, organ, piano, trombone, saxophone, trumpet, drums, bass}
+@ATTRIBUTE notableInstrument3 {clarinet, hand-drums, guitar, harmonica, tuba, stringed-ins, organ, piano, trombone, saxophone, trumpet, drums, bass}
 @ATTRIBUTE class {dixieland, hot-jazz, cool-jazz, bop, bossa-nova, vocalese, gypsy-jazz, band}
 
 @DATA
 % big band w/ vocals
-yes,5,yes,organ,vocalese
-no,17,yes,piano,band
+1958,roulette,yes,5,yes,organ,guitar,bass,vocalese
+1955,verve,no,17,yes,piano,trumpet,trombone,band
 no,16,yes,piano,band
 no,16,no,brass-section,band
 % vocals
-no,16,yes,brass-section,vocalese
-no,15,yes,piano,vocalese
-no,12,yes,stringed-ins,vocalese
+no,16,yes,stringed-ins,piano,bass,vocalese
+no,15,yes,piano,stringed-ins,saxophone,vocalese
+no,12,yes,piano,stringed-ins,trumpet,vocalese
 no,15,yes,stringed-ins,vocalese
 no,4,yes,trumpet,cool-jazz
 no,7,yes,xtet,vocalese
