@@ -22,7 +22,7 @@ malign_lymph malign_lymph 0.964751256497
 malign_lymph malign_lymph 0.999100212504
 metastases malign_lymph 0.975031919657
 metastases malign_lymph 0.878788030231
-malign_lymph malign_lymph 0.94292423965
+malign_lymph malign_lymph 0.942924239650
 malign_lymph malign_lymph 0.880399582454
 malign_lymph malign_lymph 0.999223101607
 malign_lymph malign_lymph 0.999338883578
@@ -39,11 +39,11 @@ metastases metastases 0.932871375848
 metastases metastases 0.996866463371
 metastases metastases 0.996639192962
 metastases metastases 0.998526446393
-metastases metastases 0.99642196707
+metastases metastases 0.996421967070
 metastases metastases 0.970916558831
 metastases metastases 0.997532198407
 metastases metastases 0.999455903435
-metastases metastases 0.99852785788
+metastases metastases 0.998527857880
 metastases metastases 0.868691420426
 metastases metastases 0.997421737585
 metastases metastases 0.837352162093
@@ -57,8 +57,7 @@ metastases metastases 0.918603323241
 metastases metastases 0.943388925344
 metastases metastases 0.990664265403
 metastases metastases 0.960654491087
-malign_lymph metastases 0.72938488669
+malign_lymph metastases 0.729384886690
 metastases metastases 0.929106187565
 
 36
-
