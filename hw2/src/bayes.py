@@ -8,108 +8,36 @@ import arff
 import numpy as np
 import pandas as pd
 
-#class TreeNode:
-#    def __init__(self, col='', value=None, results=None, true_n=None, false_n=None):
-#        self.col = col # name (string) of column being tested
-#        self.value = value # true value
-#        self.results = results # list of results for a branch for leaf nodes only
-#        self.true_n = true_n # true node count
-#        self.false_n = false_n # false node count
-#
-#def entropy(data):
+#def predict_tan(cond_prob, data, attr):
 #    """
-#    Calculates entropy for a given data set
 #    """
-#            
-#    # Dict for tracking + and - train_values
-#    tval_freq = {}
-#    # Calculate the frequency of each of the train_values for total set
-#    for row in data:
-#        if (tval_freq.has_key(row['class'])):
-#            tval_freq[row['class']] += 1.0
-#        else:
-#            tval_freq[row['class']]  = 1.0
-#    
-#    # Entropy calculation
-#    entropy = 0.0
-#    for freq in tval_freq.keys():
-#        p = freq/len(data)
-#        entropy += -p * log(p, 2)
+#    preds = []
+#    correct = 0
 #
-#    return entropy
-#
-#def info_gain(data, split):
-#    """
-#    Calculates the information gain for a given split
-#    """
-#    
-#    # Dict for tracking attribute values
-#    attr_freq = {}
-#    # Calculate the frequency of each of the train_values for split
-#    for row in data:
-#        if (attr_freq.has_key(row['split'])):
-#            attr_freq[row['split']] += 1.0
-#        else:
-#            attr_freq[row['split']]  = 1.0
-#
-#    # Calculate the entropy of the data set
-#    entropy = 0.0
-#    for freq in attr_freq.values():
-#        p = freq/len(data)
-#        entropy += -p * log(p, 2)
-#
-#    # Sum the entropy for each subset in split
-#    for attr_val in attr_freq.keys():
-#        attr_prob = attr_freq[attr_val] / sum(attr_freq.values())
-#        subset = [row for row in data if row['split'] == attr_val]
-#        subset_entropy += attr_prob * entropy(subset)
-#
-#    # Calculate info gain from 
-#    gain = entropy(data) - subset_entropy
-#
-#    return gain
-#
-#def find_best_split(data, attributes, splits):
-#    """
-#    Finds the split with the most info gain and returns the attr to split on
-#    """
-#    max_gain= -1000.0
-#    best_split_attr = None
-#    
-#    # Calculates best split
-#    for split in splits:
-#        gain = info_gain(data, split)
-#        if gain > max_gain:
-#            max_gain = gain
-#            best_split_attr = split
-#    
-#    return best_split_attr
-
-def posterior_probability(bn, pp_table, data_test, attr_test):
-    """
-    Calculates the posterior probability table for naive bayes. All
-    attributes are conditionally independent, so each attribute only 
-    requires a P(Y|X_i) calculation.
-    """
-    post_probs = []
-
-    return post_probs
+#    return preds, correct
 
 
-def TAN_bn(data, attributes):
-    """
-    Builds tree-augmented naive bayesian network by searching
-    possible structures with maximum-likely connections
-    """
-    # returns an array of CP values
-    # cond_probs = get_CPT(data, attributes)
-    # calculate max info gain, i.e. the largest P(y|x)
-    # for each y
-    #   calc P(y)
-    #   for each x 
-    #     calc P(x,y)
-    bn = []
-    return bn, post_probs
+#def pairwise_conditional_probability(data, attr, counts):
+#    """
+#    """
+#    
+#
+#    return cond_prob, cmi_sorted
+
+
+#def tan_bn(data, attributes):
+#    """
+#    Builds tree-augmented naive bayesian network by looping through all pairs of 
+#    attributes possible and structures with maximum-likely predictive connections
+#    """
+#    # probability calculations 
+#    counts = counts_table(data, attributes)
+#    cond_probs, cmi_sorted = pairwise_conditional_probability(data, attributes, counts)
+#    # graph construction
+#    
+#    
+#    bn = []
+#    return bn, cond_probs
 
 
 def predict_bn(cp, prior0, prior1, data, attr):
@@ -120,10 +48,10 @@ def predict_bn(cp, prior0, prior1, data, attr):
     actual class, and post prob of the predicted class (+ # of correct predictions)
     """
     # gets class names for dataframe manipulation
-    classes = attr.tail(1)
-    classlist = classes['vars'].tolist()
-    class0 = classlist[0][0]
-    class1 = classlist[0][1]
+    classes = attr.tail(1)['vars'].tolist()
+    classlist = [classes[0][0], classes[0][1]]
+    class0 = classlist[0]
+    class1 = classlist[1]
     # loops through test data and calculates a posterior probability for
     # each class
     attrs = attr['attr'].drop(attr.index[-1]).tolist()
@@ -165,10 +93,10 @@ def conditional_probability(data, attr, cp_table):
     calculates the prior probabilities for both classes.
     """
     # gets class names for dataframe manipulation
-    classes = attr.tail(1)
-    classlist = classes['vars'].tolist()
-    class0 = classlist[0][0]
-    class1 = classlist[0][1]
+    classes = attr.tail(1)['vars'].tolist()
+    classlist = [classes[0][0], classes[0][1]]
+    class0 = classlist[0]
+    class1 = classlist[1]
     # number of instances beloning to each class
     nclass0 = cp_table.loc[0, class0].sum()
     nclass1 = cp_table.loc[0, class1].sum()
@@ -202,46 +130,35 @@ def counts_table(data, attr):
     Tabulates the counts in a table for the data set so that probabilities
     can be calculated. Only made for data sets with nominal variables. 
     """
+    pd.options.mode.chained_assignment = None  # default='warn'
     # gets class names for dataframe manipulation
-    classes = attr.tail(1)
-    classlist = classes['vars'].tolist()
-    class0 = classlist[0][0]
-    class1 = classlist[0][1]
+    classes = attr.tail(1)['vars'].tolist()
+    classlist = [classes[0][0], classes[0][1]]
     # expanding a table to have all variable options in a column with their 
     # parent attribute
     allvariables = attr.apply(lambda x: pd.Series(x['vars']),axis=1).stack().reset_index(level=1, drop=True)
     allvariables.name='var'
-    freq = attr.drop('vars', axis=1).join(allvariables)
-    freq = freq.drop(attr.index[-1])
+    allvariables = attr.drop('vars', axis=1).join(allvariables)
+    av = allvariables.drop(attr.index[-1])
     # populate the table with counts
-    freq0 = []
-    freq1 = []
-    for ind, row in freq.iterrows():
-        att = row['attr']
-        var = row['var']
-        sub = data[[att,'class']]
-        sub = sub[sub[att]==var]
-        sub0 = sub[sub['class']==class0]
-        sub1 = sub[sub['class']==class1]
-        if not (sub0.empty and sub1.empty):
-            count0 = len(sub0)
-            count1 = len(sub1)
-        elif sub0.empty and not sub1.empty:
-            count0 = 0
-            count1 = len(sub1)
-        elif sub1.empty and not sub0.empty:
-            count0 = len(sub0)
-            count1 = 0
-        else:
-            count0 = 0
-            count1 = 0
-        freq0.append(count0)
-        freq1.append(count1)
-    # add the counts in new columns for each class
-    freq[class0] = freq0
-    freq[class1] = freq1
+    for c in classlist:
+        clist = []
+        count = 0
+        for i, row in av.iterrows():
+            att = row['attr']
+            var = row['var']
+            sub = data[[att,'class']]
+            sub = sub[sub[att]==var]
+            if not sub.empty:
+                ssub = sub[sub['class']==c]
+                if not ssub.empty:
+                    count = len(ssub)
+                else:
+                    count = 0
+            clist.append(count)
+        av[c] = clist
 
-    return freq
+    return av
 
 
 def naive_bn(data, attributes):
@@ -284,8 +201,8 @@ def main():
         bn, cond_probs, prior0, prior1 = naive_bn(data_train, attr_train)
         preds, correct = predict_bn(cond_probs, prior0, prior1, data_test, attr_test)
     elif alg == 't':
-        bn, cond_probs, prior0, prior1 = TAN_bn(data_train, attr_train)
-        preds, correct = predict_tan(cond_probs, prior0, prior1, data_test, attr_test)
+        bn, cond_probs = tan_bn(data_train, attr_train)
+        preds, correct = predict_tan(cond_probs, data_test, attr_test)
     else:
         print('\n ~~~~~~~~~~\n 3rd arg should be n or t\n ~~~~~~~~~~\n')
     
