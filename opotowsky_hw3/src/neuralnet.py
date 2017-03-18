@@ -10,7 +10,7 @@ import pandas as pd
 from tools import *
 import csv
 
-def train_nn(num_epochs, num_folds, w_ij, w_jk):
+def train_nn(num_epochs, num_folds, learning_rate, w_ij, w_jk, data):
     for epoch in range(0, num_epochs):
         strat_sets, classes = strat_split(num_folds, data)
         tests = {}
@@ -67,9 +67,9 @@ def predict(w_ij, w_jk, tests, classes):
 def main():
     # Get input: training data
     train = arff.load(open(sys.argv[1], 'rb')) 
-    num_folds = sys.argv[2]
-    learning_rate = sys.argv[3]
-    num_epochs = sys.argv[4]
+    num_folds = int(sys.argv[2])
+    learning_rate = float(sys.argv[3])
+    num_epochs = int(sys.argv[4])
     # data and attributes
     attr = pd.DataFrame(train['attributes'], columns=['attr', 'vars'])
     data = pd.DataFrame(train['data'], columns=attr['attr'].tolist())
@@ -79,7 +79,7 @@ def main():
     
     w_ij = rand_weights(in_size+1, hid_size)
     w_jk = rand_weights(hid_size+1, 1)
-    w_ij, w_jk, tests, classes = train_nn(num_epochs, num_folds, w_ij, w_jk)
+    w_ij, w_jk, tests, classes = train_nn(num_epochs, num_folds, learning_rate, w_ij, w_jk, data)
     predicted = predict(w_ij, w_jk, tests, classes)
         
     # Print to command line
