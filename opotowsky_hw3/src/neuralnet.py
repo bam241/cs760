@@ -85,7 +85,7 @@ def main():
     # Print to command line
     ordered = pd.DataFrame(predicted, columns=['Instance', 'FoldNumber', 'PredictedOutput', 'ActualOutput', 'Confidence'])
     ordered = ordered.sort_values(by='Instance')
-    del ordered['Instance']
+    #del ordered['Instance']
     toprint = ordered.to_string()
     file_name = str(num_folds) +  "_" + str(learning_rate) + "_" + str(num_epochs) + ".csv"
     ordered.to_csv(file_name, sep=',', index=False)

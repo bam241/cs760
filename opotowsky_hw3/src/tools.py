@@ -36,12 +36,14 @@ def strat_split(num_folds, data):
     temp = data
     counts = temp['Class'].value_counts()
     class0 = counts.index.tolist()[0]
-    class1 = counts.index.tolist()[0]
+    class1 = counts.index.tolist()[1]
     classes = [class0, class1]
     num0 = counts[0]
     num1 = counts[1]
-    num0_instances = int(round(num0 / num_folds))
-    num1_instances = int(round(num1 / num_folds))
+    #num0_instances = int(round(num0 / num_folds))
+    #num1_instances = int(round(num1 / num_folds))
+    num0_instances = int(num0 / num_folds)
+    num1_instances = int(num1 / num_folds)
     strat_data = {}
     for i in range(1, num_folds):
         set0 = temp.sample(n=num0_instances)
