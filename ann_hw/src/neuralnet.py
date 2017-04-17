@@ -11,6 +11,13 @@ from tools import *
 import csv
 
 def train_nn(num_epochs, num_folds, learning_rate, w_ij, w_jk, data):
+    """
+    Given the parameters obtained by user CLI input, initialized random weights, 
+    and the training data, this loops through the entire data set to calculate
+    the weights given to each node in each layer. This algorithm is written for 
+    a single hidden layer of equal size to the input layer, a bias node on each, 
+    and assumes binary classification.
+    """
     for epoch in range(0, num_epochs):
         strat_sets, classes = strat_split(num_folds, data)
         tests = {}
@@ -48,6 +55,11 @@ def train_nn(num_epochs, num_folds, learning_rate, w_ij, w_jk, data):
 
 
 def predict(w_ij, w_jk, tests, classes):
+    """
+    Taking the model from the training phase (i.e. the weights for each 
+    node in each layer), this uses the test set to calculate a prediction
+    and the "confidence" (sigmoid value) of that prediction.
+    """
     to_print = []
     for fold, test_set in tests.iteritems():
         for instance, row in test_set.iterrows():
@@ -65,27 +77,37 @@ def predict(w_ij, w_jk, tests, classes):
     return to_print
 
 def main():
-    # Get input: training data
+    """
+    This neural net algorithm builds an ANN for training data that is 
+    real-valued for every attribute. It is written for a single hidden layer of 
+    equal size to the input layer, a bias node on each, and assumes binary 
+    classification.
+    """
+    # get input: training data
     train = arff.load(open(sys.argv[1], 'rb')) 
     num_folds = int(sys.argv[2])
     learning_rate = float(sys.argv[3])
     num_epochs = int(sys.argv[4])
+    
     # data and attributes
     attr = pd.DataFrame(train['attributes'], columns=['attr', 'vars'])
     data = pd.DataFrame(train['data'], columns=attr['attr'].tolist())
     
+    # input layer size and hidden layer size
     in_size = len(attr) - 1
     hid_size = in_size
     
+    # randomly initialize weights
     w_ij = rand_weights(in_size+1, hid_size)
     w_jk = rand_weights(hid_size+1, 1)
+
+    # train and predict
     w_ij, w_jk, tests, classes = train_nn(num_epochs, num_folds, learning_rate, w_ij, w_jk, data)
     predicted = predict(w_ij, w_jk, tests, classes)
         
-    # Print to command line
+    # print to command line
     ordered = pd.DataFrame(predicted, columns=['Instance', 'FoldNumber', 'PredictedOutput', 'ActualOutput', 'Confidence'])
     ordered = ordered.sort_values(by='Instance')
-    #del ordered['Instance']
     toprint = ordered.to_string()
     file_name = str(num_folds) +  "_" + str(learning_rate) + "_" + str(num_epochs) + ".csv"
     ordered.to_csv(file_name, sep=',', index=False)

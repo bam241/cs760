@@ -8,13 +8,19 @@ import numpy as np
 import pandas as pd
 
 def sigmoid(x):
-    #sigmoid = 1.0 / (1.0 + e(-x))
+    """
+    Computes output values (sigmoid function) of each element in np array
+    """
     exp = np.exp(-1 * np.array(x))
     sigmoid = np.add(1, exp)
     sigmoid = np.divide(1, sigmoid)
     return sigmoid
 
 def get_nn_input(row, instance, classes):
+    """
+    For each row in training data, this provides a list of the input layer 
+    (with a bias node of 1) as well as the instance's actual output value.
+    """
     layer = pd.DataFrame(row)
     c = layer.get_value('Class', instance)
     if c == classes[1]:
@@ -27,12 +33,19 @@ def get_nn_input(row, instance, classes):
     return y, layer
 
 def get_nn_hidden(layer, instance):
+    """
+    Takes an np array representing a hidden layer, adds a bias node of 1, 
+    and returns as a list
+    """
     layer = layer.tolist()
     layer = np.append(layer, [1]).tolist()
     return layer
 
 def strat_split(num_folds, data):
-    # split data into stratified sets
+    """ 
+    Takes entire training set and splits all instances into stratified sets, 
+    the number of which is defined by num_folds
+    """
     temp = data
     counts = temp['Class'].value_counts()
     class0 = counts.index.tolist()[0]
@@ -40,6 +53,7 @@ def strat_split(num_folds, data):
     classes = [class0, class1]
     num0 = counts[0]
     num1 = counts[1]
+    # Unsuccessful troubleshooting for instance re-use
     #num0_instances = int(round(num0 / num_folds))
     #num1_instances = int(round(num1 / num_folds))
     num0_instances = int(num0 / num_folds)
@@ -55,6 +69,9 @@ def strat_split(num_folds, data):
     return strat_data, classes
 
 def rand_weights(size1, size2):
-    # randomly initialize weights from layer1 to layer2
+    """
+    Randomly initialize weights between two layers 
+    (e.g., input layer to hidden layer)
+    """
     w = np.random.uniform(-0.1, 0.1, (size1, size2)).tolist()
     return w
