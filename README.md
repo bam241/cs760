@@ -9,7 +9,7 @@ and the training implements a stochastic gradient descent.
 Files in PR of Interest
 -----------------------
 
-My coding is contained in three files:
+My reviewable code is contained in three files
 * neuralnet (for calling on command line with args)
 * src/neuralnet.py (main neural net algorithm)
 * src/tools.py (helper functions)
