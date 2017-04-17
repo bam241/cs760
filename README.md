@@ -1,6 +1,6 @@
-======
-README
-======
+=============================================
+Artificial Neural Network Homework Assignment
+=============================================
 
 This is a homework assignment for my machine learning class (cs760) on creating a neural net.
 For those that care, it is a neural network with one hidden layer that uses backpropagation 
@@ -24,13 +24,13 @@ Run Program
 -----------
 
 You can run the program on your own by typing the following into the command line:
+.. code::
 
-.. code:: bash
 	neuralnet trainfile num_folds learning_rate num_epochs
 
 The script comes with an example input file (sonar.arff), so you can use that as follows:
+.. code:: 
 
-.. code:: bash
 	./neuralnet.py src/sonar.arff 10 0.1 50
 
 ----------
