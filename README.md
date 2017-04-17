@@ -24,12 +24,12 @@ Run Program
 -----------
 
 You can run the program on your own by typing the following into the command line:
-.. code::
+::
 
 	neuralnet trainfile num_folds learning_rate num_epochs
 
 The script comes with an example input file (sonar.arff), so you can use that as follows:
-.. code:: 
+:: 
 
 	./neuralnet.py src/sonar.arff 10 0.1 50
 
