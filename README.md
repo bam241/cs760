@@ -10,9 +10,9 @@ Files in PR of Interest
 -----------------------
 
 My coding is contained in three files:
-- neuralnet (for calling on command line with args)
-- src/neuralnet.py (main neural net algorithm)
-- src/tools.py (helper functions)
+* neuralnet (for calling on command line with args)
+* src/neuralnet.py (main neural net algorithm)
+* src/tools.py (helper functions)
 
 The ARFF file is a common style of training data in the machine learning world. I've
 also included an ARFF file reading (and writing) python module, liac-arff.
